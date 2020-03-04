@@ -4,15 +4,19 @@ defmodule UniversalServer do
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> UniversalServer.hello()
-      :world
-
+  Spawn a universal server.
   """
-  def hello do
-    :world
+  def spawn do
+    spawn(&UniversalServer.wait_to_become_a_server/0)
+  end
+
+  @doc """
+  Wait to become a server.
+  """
+  def wait_to_become_a_server() do
+    receive do
+      {:become, fun} ->
+        fun.()
+    end
   end
 end
